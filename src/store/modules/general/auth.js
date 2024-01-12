@@ -11,6 +11,9 @@ export default {
     actions: {
         setCurrentUser(context, {user}) {
             context.commit("setCurrentUser", {user});
+        },
+        removeCurrentUser(context){
+            context.state.user = null;
         }
     },
     getters: {

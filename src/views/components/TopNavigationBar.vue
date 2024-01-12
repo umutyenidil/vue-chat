@@ -4,6 +4,8 @@ import {useStore} from "vuex";
 import {computed, ref} from "vue";
 import DropdownButton from "@/views/components/DropdownButton.vue";
 import DropdownButtonItem from "@/views/components/DropdownButtonItem.vue";
+import {logout} from "@/services/firebase/auth/auth-service";
+import router from "@/router";
 
 const store = useStore();
 
@@ -11,6 +13,17 @@ const user = computed(() => {
   console.log(store.state.moduleAuth.user);
   return store.state.moduleAuth.user;
 });
+
+const onLogout = async () => {
+  try {
+    await logout();
+    await store.dispatch('moduleAuth/removeCurrentUser');
+    await router.push({name: 'welcome-page'});
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 
 
 </script>
@@ -24,8 +37,13 @@ const user = computed(() => {
     </div>
     <div v-else>
       <DropdownButton :title="user.displayName">
-        <DropdownButtonItem :text="user.email" @onPressed="console.log('test');"/>
-        <DropdownButtonItem text="Logout" @onPressed="console.log('test');"/>
+        <DropdownButtonItem @onPressed="console.log('test');">{{ user.email }}</DropdownButtonItem>
+        <DropdownButtonItem @onPressed="onLogout">
+          <p class="inline-flex items-center gap-x-2">
+            <i class='bx bx-log-out'></i>
+            <span>Logout</span>
+          </p>
+        </DropdownButtonItem>
       </DropdownButton>
     </div>
   </nav>

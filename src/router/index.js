@@ -1,5 +1,17 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import WelcomePage from '@/views/pages/welcome/WelcomePage.vue';
+import {firebaseApp} from "@/services/firebase/firebase-config";
+
+const authGuard = (to, from, next) => {
+    let user = firebaseApp.auth().currentUser;
+
+    if (!user) {
+        next({name: 'login-page'});
+        return;
+    }
+
+    next();
+};
 
 const routes = [
     {
@@ -10,7 +22,8 @@ const routes = [
     {
         path: '/chat-room',
         name: 'chat-room-page',
-        component: () => import( '@/views/pages/chat-room/ChatRoomPage.vue')
+        component: () => import( '@/views/pages/chat-room/ChatRoomPage.vue'),
+        beforeEnter: authGuard,
     },
     {
         path: '/auth/register',

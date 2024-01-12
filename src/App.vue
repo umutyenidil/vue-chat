@@ -1,30 +1,19 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+<!--  <div v-show="modalState.isVisible" class="absolute bg-black opacity-60 w-full h-full">-->
+
+<!--  </div>-->
+  <TopNavigationBar/>
   <router-view/>
 </template>
+<script setup>
+import {computed} from "vue";
+import {useStore} from 'vuex';
+import TopNavigationBar from "@/views/components/TopNavigationBar.vue";
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+const store = useStore();
 
-nav {
-  padding: 30px;
-}
+const modalState = computed(() => {
+  return store.state.moduleModal;
+});
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>

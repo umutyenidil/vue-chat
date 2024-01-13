@@ -12,7 +12,7 @@ export default {
         setCurrentUser(context, {user}) {
             context.commit("setCurrentUser", {user});
         },
-        removeCurrentUser(context){
+        removeCurrentUser(context) {
             context.state.user = null;
         }
     },

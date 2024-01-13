@@ -29,7 +29,7 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <nav class="px-[7.5rem] bg-slate-200 py-5 w-full flex justify-between items-center fixed top-0">
+  <nav class="px-[7.5rem] bg-slate-100 py-5 w-full flex justify-between items-center fixed top-0 shadow">
     <TopNavigationBarItem title="Vue Chat" to="/"/>
     <div v-if="!user" class="flex justify-between gap-x-5">
       <TopNavigationBarItem title="Register" to="/auth/register"/>

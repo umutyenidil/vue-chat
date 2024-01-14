@@ -17,8 +17,7 @@ const errorBoxMessage = computed(() => {
 </script>
 
 <template>
-  <div id="login-page"
-       class="flex justify-center items-center h-screen">
+  <div id="login-page" class="flex justify-center items-center">
     <div class="w-full flex flex-col items-center gap-8">
       <h3 class="font-bold text-4xl">Register</h3>
       <div v-show="isErrorBoxVisible"

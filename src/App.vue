@@ -1,14 +1,10 @@
 <template>
-<!--  <div v-show="modalState.isVisible" class="absolute bg-black opacity-60 w-full h-full">-->
-
-<!--  </div>-->
-  <TopNavigationBar/>
-  <router-view/>
+  <NavigationBarLayout/>
 </template>
 <script setup>
 import {computed} from "vue";
 import {useStore} from 'vuex';
-import TopNavigationBar from "@/views/components/TopNavigationBar.vue";
+import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
 
 const store = useStore();
 

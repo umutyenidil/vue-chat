@@ -63,16 +63,23 @@ const onLogout = async () => {
       </div>
     </nav>
     <Transition name="slide-up">
-      <div v-if="isVisibleMobileMenu"
+      <div @click="toggleMobileMenuVisibility"
+           v-if="isVisibleMobileMenu"
            class="block sm:hidden absolute w-full h-min bg-slate-100 px-[2rem] py-5">
-        <ul class="flex flex-col gap-y-2">
-          <li>
+        <div class="flex flex-col gap-y-2">
+          <div v-if="!user" class="flex flex-col gap-y-3">
             <TopNavigationBarItem title="Register" to="/auth/register"/>
-          </li>
-          <li>
             <TopNavigationBarItem title="Login" to="/auth/login"/>
-          </li>
-        </ul>
+          </div>
+          <div v-else class="flex flex-col gap-y-3">
+            <p>{{ user.displayName }}</p>
+            <p @click="onLogout"
+               class="inline-flex items-center gap-x-2">
+              <i class='bx bx-log-out'></i>
+              <span>Logout</span>
+            </p>
+          </div>
+        </div>
       </div>
     </Transition>
   </header>

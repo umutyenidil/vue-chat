@@ -34,7 +34,7 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <header>
+  <header class="z-[1000]">
     <nav class="px-[2rem] sm:px-[7.5rem] bg-slate-100 py-5 w-full flex justify-between items-center shadow h-min">
       <TopNavigationBarItem title="Vue Chat" to="/"/>
       <button @click="toggleMobileMenuVisibility"
@@ -65,7 +65,7 @@ const onLogout = async () => {
     <Transition name="slide-up">
       <div @click="toggleMobileMenuVisibility"
            v-if="isVisibleMobileMenu"
-           class="block sm:hidden absolute w-full h-min bg-slate-100 px-[2rem] py-5">
+           class="block sm:hidden absolute z-[999] w-full h-min bg-slate-100 px-[2rem] py-5">
         <div class="flex flex-col gap-y-2">
           <div v-if="!user" class="flex flex-col gap-y-3">
             <TopNavigationBarItem title="Register" to="/auth/register"/>

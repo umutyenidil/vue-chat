@@ -23,7 +23,7 @@ const routes = [
         component: WelcomePage
     },
     {
-        path: '/chat-room',
+        path: '/chat/:id',
         name: routeNames.chatRoomPage,
         component: () => import( '@/views/pages/chat-room/ChatRoomPage.vue'),
         beforeEnter: authGuard,

@@ -1,9 +1,10 @@
 <script setup>
 
+import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
 </script>
 
 <template>
-  <div id="welcome-page">
+  <NavigationBarLayout>
     <h3>Welcome Page</h3>
-  </div>
+  </NavigationBarLayout>
 </template>

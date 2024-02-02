@@ -1,5 +1,5 @@
 <template>
-  <NavigationBarLayout/>
+  <router-view/>
 </template>
 <script setup>
 import {computed} from "vue";

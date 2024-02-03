@@ -72,7 +72,7 @@ const onMessageSubmitted = (message) => {
 <template>
   <NavigationBarLayout>
     <div class="flex flex-col h-full justify-between">
-      <div class="overflow-y-scroll py-2 flex justify-center" ref="messagesBox">
+      <div class="overflow-y-scroll custom-scrollbar py-2 flex justify-center" ref="messagesBox">
         <div class="w-full sm:w-1/2 px-2 sm:px-0 flex flex-col gap-y-1">
           <template v-for="message in messages">
             <ChatBubbleRight v-if="message.senderId === currentUserId" :message="message.message"/>
@@ -88,3 +88,20 @@ const onMessageSubmitted = (message) => {
     </div>
   </NavigationBarLayout>
 </template>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(226 232 240);
+  //border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 12px 12px 12px rgb(72, 187, 120);
+}
+
+</style>

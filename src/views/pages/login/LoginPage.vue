@@ -1,6 +1,6 @@
 <script setup>
 import LoginForm from "@/views/pages/login/components/LoginForm.vue";
-import NavigationBarLayout from "@/App.vue";
+import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
 </script>
 
 <template>

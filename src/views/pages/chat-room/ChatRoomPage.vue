@@ -6,6 +6,8 @@ import {nextTick, onMounted, onUpdated, ref} from "vue";
 import {useStore} from "vuex";
 import {firebaseAuth, firebaseFirestore} from "@/services/firebase/firebase-config";
 import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
+import ChatBubbleLeft from "@/views/components/ChatBubbleLeft.vue";
+import ChatBubbleRight from "@/views/components/ChatBubbleRight.vue";
 
 
 const store = useStore();
@@ -42,15 +44,23 @@ onMounted(async () => {
     messages.value = snapshot.docs.map((doc) => {
       return doc.data();
     });
+    scrollToBottom();
 
   });
-
-
+  scrollToBottom();
 });
 
 onUpdated(async () => {
-
+  scrollToBottom();
 });
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesBox.value) {
+      messagesBox.value.scrollTop = messagesBox.value.scrollHeight;
+    }
+  });
+};
 
 const onMessageSubmitted = (message) => {
   console.log('test');
@@ -62,14 +72,11 @@ const onMessageSubmitted = (message) => {
 <template>
   <NavigationBarLayout>
     <div class="flex flex-col h-full justify-between">
-      <div class="overflow-y-scroll flex justify-center" ref="messagesBox">
-        <div class="w-full sm:w-1/2 px-2 sm:px-0 flex flex-col">
+      <div class="overflow-y-scroll py-2 flex justify-center" ref="messagesBox">
+        <div class="w-full sm:w-1/2 px-2 sm:px-0 flex flex-col gap-y-1">
           <template v-for="message in messages">
-            <div v-if="message.senderId === currentUserId" class="bg-orange-500 w-min self-end">{{
-                message.message
-              }}
-            </div>
-            <div v-else class="bg-red-500 w-min">{{ message.message }}</div>
+            <ChatBubbleRight v-if="message.senderId === currentUserId" :message="message.message"/>
+            <ChatBubbleLeft v-else :message="message.message"/>
           </template>
         </div>
       </div>
@@ -80,20 +87,4 @@ const onMessageSubmitted = (message) => {
       </div>
     </div>
   </NavigationBarLayout>
-
-  <!--    <div id="relative chat-room-page" class="px-5" >-->
-  <!--      <div class="relative w-full h-full flex justify-center items-end">-->
-  <!--        <div class="relative w-full sm:w-1/2 h-full h-min-screen flex flex-col justify-end">-->
-  <!--          <div class=" flex flex-col gap-y-5 mb-10" ref="messagesBox" >-->
-  <!--            <template v-for="message in messages">-->
-  <!--              <div v-if="message.senderId === currentUserId" class="bg-orange-500">{{ message.message }}</div>-->
-  <!--              <div v-else class="bg-red-500">{{ message.message }}</div>-->
-  <!--            </template>-->
-  <!--          </div>-->
-  <!--          <div class="sticky bottom-5 w-full">-->
-  <!--            <MessageInputField/>-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
 </template>

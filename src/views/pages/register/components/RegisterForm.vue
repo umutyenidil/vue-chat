@@ -35,6 +35,12 @@ const setRepeatPassword = (value) => {
   repeatPasswordInput.value = value.trim();
 }
 
+const clearValidationErrors = () => {
+  usernameInputError.value = null;
+  emailAddressInputError.value = null;
+  passwordInputError.value = null;
+  repeatPasswordInputError.value = null;
+};
 const validateForm = () => {
   const validationData = registerFormValidator({
     username: usernameInput.value,
@@ -50,10 +56,7 @@ const validateForm = () => {
     repeatPasswordInputError.value = validationData.repeatPassword;
     return false;
   } else {
-    usernameInputError.value = null;
-    emailAddressInputError.value = null;
-    passwordInputError.value = null;
-    repeatPasswordInputError.value = null;
+    clearValidationErrors();
     return true;
   }
 }
@@ -65,7 +68,7 @@ const onSubmit = async () => {
 
   if (isFormValid) {
     try {
-      await store.dispatch('registerPageModule/toggleIsFormLoading');
+      toggleIsFormLoading();
 
       const user = await firebaseRegister({
         username: usernameInput.value,
@@ -82,14 +85,16 @@ const onSubmit = async () => {
         message: error.message,
       });
     } finally {
-      await store.dispatch('registerPageModule/toggleIsFormLoading');
+      toggleIsFormLoading();
     }
   }
 };
 
-const isFormLoading = computed(() => {
-  return store.getters['registerPageModule/isFormLoading'];
-});
+const isFormLoading = ref(false);
+
+const toggleIsFormLoading = () => {
+  isFormLoading.value = !isFormLoading.value;
+}
 
 </script>
 

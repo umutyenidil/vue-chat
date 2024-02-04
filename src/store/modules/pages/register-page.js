@@ -1,45 +1,42 @@
 const initState = {
-    errorBox: {
-        isVisible: false,
-        message: null,
-    }
+    error: null,
+    isFormLoading: false,
 };
 
 export default {
     namespaced: true,
     state: () => (initState),
     mutations: {
-        showErrorBox(state, {message}) {
-            state.errorBox.message = message;
-            state.errorBox.isVisible = true;
+        setError(state, {message}) {
+            state.error = message;
         },
-        closeErrorBox(state) {
-            state.errorBox = initState.errorBox;
+        clearError(state) {
+            state.error = null;
         },
-        setErrorBoxMessage(state, {message}) {
-            state.errorBox.message = message;
-        },
-        setErrorBoxVisibility(state, {visibility}) {
-            state.errorBox.isVisible = visibility;
+        toggleIsFormLoading(state) {
+            state.isFormLoading = !state.isFormLoading;
         }
     },
     actions: {
         init(context) {
-            context.state.state = initState;
+            context.state = initState;
         },
-        setErrorBoxVisibility(context, visibility) {
-            context.commit('setErrorBoxVisibility', {visibility});
+        showError(context, {message}) {
+            context.commit('setError', {message});
         },
-        setErrorBoxMessage(context, message) {
-            context.commit('setErrorBoxMessage', {message});
+        closeError(context) {
+            context.commit('clearError');
+        },
+        toggleIsFormLoading(context) {
+            context.commit('toggleIsFormLoading');
         }
     },
     getters: {
-        isErrorBoxVisible(state) {
-            return state.errorBox.isVisible;
+        error(state) {
+            return state.error;
         },
-        errorBoxMessage(state) {
-            return state.errorBox.message;
+        isFormLoading(state) {
+            return state.isFormLoading;
         }
     },
 }

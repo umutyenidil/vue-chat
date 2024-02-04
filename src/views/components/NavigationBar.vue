@@ -10,8 +10,7 @@ import router from "@/router";
 const store = useStore();
 
 const user = computed(() => {
-  console.log(store.state.moduleAuth.user);
-  return store.state.moduleAuth.user;
+  return store.getters['authModule/currentUser'];
 });
 
 const isVisibleMobileMenu = ref(false);

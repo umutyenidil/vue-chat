@@ -8,8 +8,8 @@ import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
 
 const store = useStore();
 
-const modalState = computed(() => {
-  return store.state.moduleModal;
-});
+// const modalState = computed(() => {
+//   return store.state.moduleModal;
+// });
 
 </script>

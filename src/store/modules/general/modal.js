@@ -7,12 +7,10 @@ export default {
         message: null,
     }),
     mutations: {
-        setModalMessage(state, {type, title, message}) {
+        showModal(state, {type, title, message}) {
             state.type = type;
             state.title = title;
             state.message = message;
-        },
-        showModal(state) {
             state.isVisible = true;
         },
         closeModal(state) {
@@ -20,12 +18,15 @@ export default {
         }
     },
     actions: {
-        showModal(context) {
-            context.commit('showModal', {});
-        }
+        showModal(context, {type, title, message}) {
+            context.commit('showModal', {type, title, message});
+        },
+        closeModal(context) {
+            context.commit('closeModal');
+        },
     },
     getters: {
-        isModalVisible(state){
+        isModalVisible(state) {
 
         }
     },

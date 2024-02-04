@@ -1,15 +1,15 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import WelcomePage from '@/views/pages/welcome/WelcomePage.vue';
-import {firebaseApp} from "@/services/firebase/firebase-config";
-import routeNames from "@/router/route-names";
-
 import store from "@/store";
 
+import WelcomePage from '@/views/pages/welcome/WelcomePage.vue';
+import routeNames from "@/router/route-names";
+import firebaseCurrentUser from "@/services/firebase/auth/current-user";
+
 const authGuard = (to, from, next) => {
-    let user = firebaseApp.auth().currentUser;
+    let user = firebaseCurrentUser();
 
     if (!user) {
-        next({name: 'login-page'});
+        next({name: routeNames.loginPage});
         return;
     }
 
@@ -23,10 +23,16 @@ const routes = [
         component: WelcomePage
     },
     {
+        path: '/home',
+        name: routeNames.homePage,
+        component: () => import('@/views/pages/home-page/HomePage.vue'),
+        beforeEnter: authGuard,
+    },
+    {
         path: '/chat/:id',
         name: routeNames.chatRoomPage,
         component: () => import( '@/views/pages/chat-room/ChatRoomPage.vue'),
-        beforeEnter: authGuard,
+        // beforeEnter: authGuard,
     },
     {
         path: '/auth/register',
@@ -46,17 +52,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    console.log(`${to.name} route girildi`);
-    let user = firebaseApp.auth().currentUser;
+    let user = firebaseCurrentUser();
 
     if (user) {
-        await store.dispatch('moduleAuth/setCurrentUser', {user});
-
-        const testUser = await store.getters["moduleAuth/currentUser"];
-
-        if (testUser) {
-            console.log('test user basariyla set edildi');
-        }
+        await store.dispatch('authModule/setCurrentUser', {user});
     }
 
     next();

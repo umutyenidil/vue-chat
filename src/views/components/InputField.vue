@@ -30,7 +30,8 @@ watch(inputRef, () => {
 <template>
   <div class="w-full flex flex-col gap-y-1">
     <input v-model="inputRef"
-           type="text" required :placeholder="placeholder"
+           type="text"
+           :placeholder="placeholder"
            :disabled=!isEnabled
            class="w-full px-5 py-3 rounded-full outline-none border border-2 border-gray-300 focus:border-blue-500 placeholder-gray-400 focus:placeholder-gray-200 transition ease-in-out duration-150"/>
     <div v-if="errorText" class="px-3 flex items-center gap-x-1">

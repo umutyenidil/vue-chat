@@ -1,14 +1,19 @@
 import {firebaseAuth} from '../firebase-config';
+import {firebaseFirestore} from "@/services/firebase/firebase-config";
+
 
 const firebaseRegister = async ({username, email, password}) => {
     try {
-        const res = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+        const credential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
 
-        if (!res) throw new Error('Has not been registered');
+        if (!credential) throw new Error('Has not been registered');
 
-        await res.user.updateProfile({displayName: username});
+        await firebaseFirestore.collection('users').doc(credential.user.uid).set({
+            emailAddress: email,
+            username: username,
+        });
 
-        return res.user;
+        return credential.user;
     } catch (error) {
         console.log(error);
         console.log(error.code);

@@ -17,7 +17,7 @@ const routes = [
     {
         path: '/home',
         name: routeNames.homePage,
-        component: () => import('@/views/pages/home-page/HomePage.vue'),
+        component: () => import('@/views/pages/home/HomePage.vue'),
         beforeEnter: routeGuards.authGuard,
     },
     {

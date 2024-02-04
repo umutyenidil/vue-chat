@@ -3,10 +3,10 @@ import store from "@/store";
 
 import WelcomePage from '@/views/pages/welcome/WelcomePage.vue';
 import routeNames from "@/router/route-names";
-import firebaseCurrentUser from "@/services/firebase/auth/current-user";
+import firebaseGetCurrentUser from "@/services/firebase/auth/get-current-user";
 
 const authGuard = (to, from, next) => {
-    let user = firebaseCurrentUser();
+    let user = firebaseGetCurrentUser();
 
     if (!user) {
         next({name: routeNames.loginPage});
@@ -52,7 +52,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    let user = firebaseCurrentUser();
+    let user = firebaseGetCurrentUser();
 
     if (user) {
         await store.dispatch('authModule/setCurrentUser', {user});

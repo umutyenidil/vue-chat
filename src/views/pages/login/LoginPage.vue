@@ -1,18 +1,23 @@
 <script setup>
-import LoginForm from "@/views/pages/login/components/LoginForm.vue";
 import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
+import LoginFormBox from "@/views/pages/login/components/LoginFormBox.vue";
+import {onBeforeRouteLeave} from "vue-router";
+import {useStore} from "vuex";
+import {watch, watchEffect} from "vue";
+
+
+const store = useStore();
+
+watchEffect(async () => {
+  await store.dispatch('loginPageModule/init');
+})
+
 </script>
 
 <template>
   <NavigationBarLayout>
-    <div id="login-page" class="flex justify-center items-center">
-      <div class="w-full flex flex-col items-center gap-8">
-        <h3 class="font-bold text-4xl">Login</h3>
-        <LoginForm/>
-        <p>Don't have an account? <span
-            class="text-blue-500 hover:text-blue-700 hover:underline transition duration-150"><router-link
-            to="/auth/register">Register</router-link></span></p>
-      </div>
+    <div class="h-full flex justify-center items-center">
+      <LoginFormBox/>
     </div>
   </NavigationBarLayout>
 </template>

@@ -1,6 +1,6 @@
 import {firebaseAuth} from '../firebase-config';
 
-const firebaseCurrentUser = () => {
+const firebaseGetCurrentUser = () => {
     try {
         return firebaseAuth.currentUser;
     } catch (error) {
@@ -8,4 +8,4 @@ const firebaseCurrentUser = () => {
     }
 };
 
-export default firebaseCurrentUser;
+export default firebaseGetCurrentUser;

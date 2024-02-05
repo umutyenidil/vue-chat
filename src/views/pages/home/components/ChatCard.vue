@@ -27,7 +27,7 @@ const lastMessage = reactive({
 
 onMounted(async () => {
   const messagesColRef = props.chatDocRef.ref.collection('messages');
-  const messagesColQuery = await messagesColRef.orderBy('createdAt').limit(1).get();
+  const messagesColQuery = await messagesColRef.orderBy('createdAt', 'desc').limit(1).get();
   const lastMessageDocRef = messagesColQuery.docs[0];
   // lastMessage.value = lastMessageDocRef.data();
   // console.log(lastMessage.value['message']);

@@ -1,32 +1,24 @@
 <script setup>
 
 import ChatList from "@/views/pages/home/components/ChatList.vue";
-import {ref} from "vue";
+import ChatBoxLoading from "@/views/pages/home/components/ChatBoxLoading.vue";
+import {computed} from "vue";
+import {useStore} from "vuex";
+import ChatBoxEmpty from "@/views/pages/home/components/ChatBoxEmpty.vue";
 
-const dots = ref('');
+const store = useStore();
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
-async function updateDots() {
-  dots.value = '';
-  for (let i = 0; i < 3; i++) {
-    await delay(250);
-    dots.value = dots.value + '.';
-  }
-}
-
-// setInterval ile repeatEveryThreeSeconds fonksiyonunu her 3000 milisaniyede (3 saniye) bir çağır
-const intervalId = setInterval(updateDots, 1000);
+const chats = computed(() => {
+  return store.getters['homePageModule/chats'];
+})
 
 </script>
 
 <template>
   <div class="h-full w-full rounded-xl shadow-md shadow-green-500 overflow-y-auto no-scrollbar">
-    <!--    <ChatList/>-->
-    <div class="h-full flex flex-col justify-center items-center gap-y-3">
-      <i class='text-3xl text-green-800 bx bx-loader bx-spin'></i>
-      <p class="text-xl text-green-800">loading</p>
-    </div>
+    <ChatBoxLoading v-if="chats === null"/>
+    <ChatBoxEmpty v-else-if="chats.length === 0"/>
+    <ChatList v-else/>
   </div>
 </template>
 

@@ -5,6 +5,7 @@ import authModule from '@/store/modules/general/auth';
 import registerPageModule from '@/store/modules/pages/register-page';
 import loginPageModule from '@/store/modules/pages/login-page';
 import moduleChatRoomPage from '@/store/modules/pages/chat-room-page';
+import homePageModule from '@/store/modules/pages/home-page';
 
 export default createStore({
     modules: {
@@ -13,5 +14,6 @@ export default createStore({
         loginPageModule,
         moduleChatRoomPage,
         authModule,
+        homePageModule,
     }
 })

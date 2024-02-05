@@ -12,18 +12,7 @@ const message = ref(null);
 
 const submitMessage = () => {
   emit('onSubmitted', message.value);
-  // const fetchedMessage = message.value;
-  // message.value = null;
-  //
-  // if (fetchedMessage?.trim() && fetchedMessage?.trim().length > 0) {
-  //   const chatRoom = await store.getters["moduleChatRoomPage/chatRoom"];
-  //
-  //   await chatRoom.collection('messages').add({
-  //     message: fetchedMessage,
-  //     senderId: store.getters['moduleAuth/currentUser'].uid,
-  //     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  //   })
-  // }
+  message.value = '';
 };
 
 </script>

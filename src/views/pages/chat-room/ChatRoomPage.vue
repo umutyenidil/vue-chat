@@ -2,9 +2,9 @@
 
 import {useRoute} from "vue-router";
 import MessageInputField from "@/views/pages/chat-room/components/MessageInputField.vue";
-import {nextTick, onMounted, onUpdated, ref} from "vue";
+import {computed, nextTick, onMounted, onUpdated, ref} from "vue";
 import {useStore} from "vuex";
-import {firebaseAuth, firebaseFirestore} from "@/services/firebase/firebase-config";
+import {firebaseAuth, firebaseFirestore, firebaseFirestoreTimestamp} from "@/services/firebase/firebase-config";
 import NavigationBarLayout from "@/views/layouts/NavigationBarLayout.vue";
 import ChatBubbleLeft from "@/views/components/ChatBubbleLeft.vue";
 import ChatBubbleRight from "@/views/components/ChatBubbleRight.vue";
@@ -16,25 +16,27 @@ const route = useRoute();
 const messages = ref([]);
 const messagesBox = ref(null);
 const currentUserId = ref(null);
+const chat = computed(() => {
+  return store.getters['moduleChatRoomPage/chatRoom'];
+});
 
 onMounted(async () => {
-  const currentUser = store.getters["moduleAuth/currentUser"];
+  const currentUser = store.getters["authModule/currentUser"];
   currentUserId.value = currentUser.uid;
 
   const currentUserRef = firebaseFirestore.collection('users').doc(currentUser.uid);
   const otherUserRef = firebaseFirestore.collection('users').doc(route.params.id.toString());
 
-  let chatRoom = await firebaseFirestore.collection('chatRooms').where('contributors', "in", [[currentUserRef, otherUserRef], [otherUserRef, currentUserRef]]).get();
+  let chatRoom = await firebaseFirestore.collection('chats').where('contributors', "in", [[currentUserRef, otherUserRef], [otherUserRef, currentUserRef]]).get();
 
   if (chatRoom.size !== 0) {
     chatRoom = chatRoom.docs[0].ref;
   } else {
-    chatRoom = await firebaseFirestore.collection('chatRooms').add({
+    chatRoom = await firebaseFirestore.collection('chats').add({
       contributors: [
         currentUserRef,
         otherUserRef,
       ],
-      messages: [],
     });
   }
 
@@ -62,8 +64,16 @@ const scrollToBottom = () => {
   });
 };
 
-const onMessageSubmitted = (message) => {
-  console.log('test');
+const onMessageSubmitted = async (value) => {
+  if (value.length ?? 0 > 0) {
+    const messagesColRef = chat.value.collection('messages');
+    await messagesColRef.add({
+      createdAt: firebaseFirestoreTimestamp.now(),
+      message: value,
+      senderId: currentUserId.value,
+    });
+  }
+  console.log('message sended');
 }
 
 
@@ -96,7 +106,7 @@ const onMessageSubmitted = (message) => {
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgb(226 232 240);
-  //border-radius: 10px;
+//border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
